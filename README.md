@@ -43,7 +43,7 @@ that the model and dataset follow the structure described below.
 
 The model directory should contain the model. This should is in the form
 of a .h5 file that contains the tuned neural network. The directory should also contain a train_stats.dat file which
-contains the stats ("the stats" is pretty vague: can you be more explicit? You can quote equations in the paper) required to normalise the dataset. An example of this can
+contains the stats ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) `("the stats" is pretty vague: can you be more explicit? You can quote equations in the paper)` required to normalise the dataset. An example of this can
 be found in this repository, containing the model discussed in the paper.
 
 ### Dataset ###
@@ -51,7 +51,7 @@ be found in this repository, containing the model discussed in the paper.
 There is some flexibility available with the formatting of the dataset to be
 provided to the run model script.
 
-The dataset should be in a csv format and contain particulate beam attenuation
+The dataset should be in a csv format and contain particulate beam-attenuation
 coefficients (c_p). The c_p coefficients can either be sampled at every
 second wavelength between 620 - 710 nm (resulting in 46 columns in the csv file) or at three
 wavelengths, which correspond to the lambda_1, lambda_2 and lambda_3 values that you
@@ -95,10 +95,12 @@ possible arguments for the script are as follows:
 
  2) prepare a csv file as follows:
  0.025721, 0.025894, 0.024865
- where the three numbers are the values of cp at lambda_1=XXX nm, lambda_2XXX nm and lambda_3XXX nm
+ where the three numbers are the values of cp at lambda_1=668 nm, lambda_2=688 nm and lambda_3=710 nm
 
  3) Issue the following command
-  `python run_model_on.py --model Gradients_and_ratios_200-epochs_186-best_epoch_12-features_308/ --dataset dataset.csv --out_dir ./ --lambda1 XXX --lambda2 XXX --lambda3 XXX`
+  `python run_model_on.py --model Gradients_and_ratios_200-epochs_186-best_epoch_12-features_308/ --dataset dataset.csv --out_dir ./ --lambda1 668 --lambda2 688 --lambda3 710`
+  
+  ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) `4) you should obtain????`
 
 ### Example 2: Estimating chl using dataset with cp wavelengths taken at every 2 nm from 620 nm to 710 nm ###
 
@@ -110,7 +112,7 @@ conda activate cmap
 Where there are 46 columns with cp taken at interval of 2 nm within range of 620 nm - 710 nm
 
 3) Issue the following command
- `python run_model_on.py --model Gradients_and_ratios_200-epochs_186-best_epoch_12-features_308/ --dataset dataset.csv --out_dir ./ --lambda1 XXX --lambda2 XXX --lambda3 XXX`
+ `python run_model_on.py --model Gradients_and_ratios_200-epochs_186-best_epoch_12-features_308/ --dataset dataset.csv --out_dir ./ --lambda1 668 --lambda2 688 --lambda3 710`
 
 ### Example 3: Estimating chl using three cp wavelengths with true chl value ###
 
