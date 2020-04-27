@@ -353,7 +353,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run a new dataset on a previously trained model")
     parser.add_argument("--model", help="The directory containing all of the information about the model", dest="model_dir", required=True)
     parser.add_argument("--dataset", help="The datasets to be applied to the model", dest="data", required=True)
-    parser.add_argument("--directory", help="The directory in which to store the results", required=True, dest="directory")
+    parser.add_argument("--out_dir", help="The directory in which to store the results", required=True, dest="directory")
     parser.add_argument("--lambda1", dest="lambda1", action="store", help="Value in nm of lambda1 (for details refer to paper)", type=int, required=True)
     parser.add_argument("--lambda2", dest="lambda2", action="store", help="Value in nm of lambda2 (for details refer to paper)", type=int, required=True)
     parser.add_argument("--lambda3", dest="lambda3", action="store", help="Value in nm of lambda3 (for details refer to paper)", type=int, required=True)

@@ -1,6 +1,4 @@
-tensorflow
 matplotlib
 pandas
 numpy
 scipy
-fpdf
