@@ -1,4 +1,4 @@
-# CMAP
+# CMAP #
 
 These are the scripts and files required to estimate chlorophyll-a concentrations using particulate beam-attenuation coefficients as described in the paper Graban et al., 2020 (submitted to Optics Express).
 
@@ -86,8 +86,9 @@ possible arguments for the script are as follows:
  * --lambda3 The wavelength at lambda3
  * --true_chl If a column exists in the dataset with true chlorophyll-a values
 
+## Examples ##
 
-## Example 1: Estimating chl using three cp wavelengths ##
+### Example 1: Estimating chl using three cp wavelengths ###
 
  1) Enter the cmap conda environment:
  conda activate cmap
@@ -99,7 +100,7 @@ possible arguments for the script are as follows:
  3) Issue the following command
   `python run_model_on.py --model Gradients_and_ratios_200-epochs_186-best_epoch_12-features_308/ --dataset dataset.csv --out_dir ./ --lambda1 XXX --lambda2 XXX --lambda3 XXX`
 
-## Example 2: Estimating chl using dataset with cp wavelengths taken at every 2 nm from 620 nm to 710 nm ##
+### Example 2: Estimating chl using dataset with cp wavelengths taken at every 2 nm from 620 nm to 710 nm ###
 
 1) Enter the cmap conda environment:
 conda activate cmap
@@ -111,7 +112,7 @@ Where there are 46 columns with cp taken at interval of 2 nm within range of 620
 3) Issue the following command
  `python run_model_on.py --model Gradients_and_ratios_200-epochs_186-best_epoch_12-features_308/ --dataset dataset.csv --out_dir ./ --lambda1 XXX --lambda2 XXX --lambda3 XXX`
 
-## Example 3: Estimating chl using three cp wavelengths with true chl value ##
+### Example 3: Estimating chl using three cp wavelengths with true chl value ###
 
 1) Enter the cmap conda environment:
 conda activate cmap
@@ -123,7 +124,7 @@ where the three numbers are the values of cp at lambda_1=XXX nm, lambda_2XXX nm 
 3) Issue the following command
  `python run_model_on.py --model Gradients_and_ratios_200-epochs_186-best_epoch_12-features_308/ --dataset dataset.csv --out_dir ./ --lambda1 XXX --lambda2 XXX --lambda3 XXX --true-chl`
 
-## Example 4: Estimating chl using dataset with cp wavelengths taken at every 2 nm from 620 nm to 710 nm with true chl value ##
+### Example 4: Estimating chl using dataset with cp wavelengths taken at every 2 nm from 620 nm to 710 nm with true chl value ###
 
 1) Enter the cmap conda environment:
 conda activate cmap
