@@ -54,14 +54,18 @@ provided to the run model script.
 The dataset should be in a csv format and contain particulate beam attenuation
 coefficients (c_p). The c_p coefficients can either be sampled at every
 second wavelength between 620 - 710 nm (resulting in 46 columns in the csv file) or at three
-wavelengths, which correspond to the $\lambda_1$, $\lambda_2$ and $\lambda_3$ values that you
+wavelengths, which correspond to the lambda_1, lambda_2 and lambda_3 values that you
 want the model to run at.
 
-Independent of the format the dataset is provided to the script, you must select a $\lambda_1$,
-$\lambda_2$ and $\lambda_3$ which are the three wavelengths from which you want the model
+Independent of the format the dataset is provided to the script, you must select a lambda_1,
+lambda_2 and lambda_3 which are the three wavelengths from which you want the model
 to predict the chl-CP.
 
-The ranges for possible $\lambda$ values are as follows:
+The ranges for possible lambda values are as follows:
+
+ * 664 <= lambda_1 <= 670
+ * 682 <= lambda_2 <= 688
+ * 704 <= lambda_3 <= 710
 
 The dataset can also have an additional column after the beam attenuation coefficients
 containing a chlorophyll-a measurement taken at the same time as the beam attenuation.
@@ -83,13 +87,50 @@ possible arguments for the script are as follows:
  * --true_chl If a column exists in the dataset with true chlorophyll-a values
 
 
-## Example 1: Estimating chl using three c_p wavelengths ##
+## Example 1: Estimating chl using three cp wavelengths ##
 
  1) Enter the cmap conda environment:
  conda activate cmap
 
  2) prepare a csv file as follows:
- 0.2, 0.3, 0.2 LET'S USE SOMETHING REALISTIC
- where the three numbers are the values of c_p at \lambda_1=XXX nm, \lambda_2XXX nm and \lambda_3XXX nm
+ 0.025721, 0.025894, 0.024865
+ where the three numbers are the values of cp at lambda_1=XXX nm, lambda_2XXX nm and lambda_3XXX nm
 
- 3) Issue the following command:...
+ 3) Issue the following command
+  `python run_model_on.py --model Gradients_and_ratios_200-epochs_186-best_epoch_12-features_308/ --dataset dataset.csv --out_dir ./ --lambda1 XXX --lambda2 XXX --lambda3 XXX`
+
+## Example 2: Estimating chl using dataset with cp wavelengths taken at every 2 nm from 620 nm to 710 nm ##
+
+1) Enter the cmap conda environment:
+conda activate cmap
+
+2) prepare a csv file as follows:
+0.027307, 0.027255, ... , 0.025031, 0.024865
+Where there are 46 columns with cp taken at interval of 2 nm within range of 620 nm - 710 nm
+
+3) Issue the following command
+ `python run_model_on.py --model Gradients_and_ratios_200-epochs_186-best_epoch_12-features_308/ --dataset dataset.csv --out_dir ./ --lambda1 XXX --lambda2 XXX --lambda3 XXX`
+
+## Example 3: Estimating chl using three cp wavelengths with true chl value ##
+
+1) Enter the cmap conda environment:
+conda activate cmap
+
+2) prepare a csv file as follows:
+0.025721, 0.025894, 0.024865, 0.141172
+where the three numbers are the values of cp at lambda_1=XXX nm, lambda_2XXX nm and lambda_3XXX nm and the final value is the true chlorophyll-a value
+
+3) Issue the following command
+ `python run_model_on.py --model Gradients_and_ratios_200-epochs_186-best_epoch_12-features_308/ --dataset dataset.csv --out_dir ./ --lambda1 XXX --lambda2 XXX --lambda3 XXX --true-chl`
+
+## Example 4: Estimating chl using dataset with cp wavelengths taken at every 2 nm from 620 nm to 710 nm with true chl value ##
+
+1) Enter the cmap conda environment:
+conda activate cmap
+
+2) prepare a csv file as follows:
+0.027307, 0.027255, ... , 0.025031, 0.024865, 0.141172
+Where there are 47 columns with cp taken at interval of 2 nm within range of 620 nm - 710 nm and the final column as the true chlorophyll-a value
+
+3) Issue the following command
+`python run_model_on.py --model Gradients_and_ratios_200-epochs_186-best_epoch_12-features_308/ --dataset dataset.csv --out_dir ./ --lambda1 XXX --lambda2 XXX --lambda3 XXX --true-chl`
