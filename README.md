@@ -41,10 +41,32 @@ that the model and dataset follow the structure described below.
 
 ### Model ###
 
-The model directory should contain the model. This should is in the form
-of a .h5 file that contains the tuned neural network. The directory should also contain a train_stats.dat file which
-contains the stats ("the stats" is pretty vague: can you be more explicit? You can quote equations in the paper) required to normalise the dataset. An example of this can
-be found in this repository, containing the model discussed in the paper.
+The model directory can come in two forms.
+
+Either the model is a single model in which case it should be made up of a single
+.h5 file that contains the tuned neural network. The directory should also contain a train_stats.dat file which
+contains the stats required to normalise the dataset. These stats include the mean
+and standard deviation for every column used in the training of the model. These
+are the minimum required files in a model directory.
+
+- Model_directory
+    - model.h5
+    - train_stats.dat
+
+The second option is for the model directory to continue multiple models formatted
+as explained above. This is the case where the model is an ensemble. The model
+directory should then only contain sub directories which are formatted as described
+above. If you are using an ensemble then ensure to pass the `--ensemble` argument
+when running the script.
+
+- ensemble-directory
+    - model1_directory
+        - model1.h5
+        - train_stats.dat
+    - model2_directory
+        - model2.h5
+        - train_stats.dat
+
 
 ### Dataset ###
 
@@ -69,7 +91,7 @@ The ranges for possible lambda values are as follows:
 
 The dataset can also have an additional column after the beam attenuation coefficients
 containing a chlorophyll-a measurement taken at the same time as the beam attenuation.
-If this column is included then the `true-chl` argument should be added when running
+If this column is included then the `--true-chl` argument should be added when running
 the script. This will allow the script to produce figures showing the results of the
 model against the chlorophyll-a values provided.
 
@@ -85,6 +107,7 @@ possible arguments for the script are as follows:
  * --lambda2 The wavelength at lambda2
  * --lambda3 The wavelength at lambda3
  * --true_chl If a column exists in the dataset with true chlorophyll-a values
+ * --ensemble If the model is an ensemble add this argument
 
 ## Examples ##
 
