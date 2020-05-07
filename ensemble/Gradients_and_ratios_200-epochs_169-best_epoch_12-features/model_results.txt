@@ -1,0 +1,5 @@
+Loss of Model:0.024117215525697688
+Means Abs Error of model:0.11050401628017426
+Mean Square Error of model:0.04969143122434616
+Bias of model:0.047911153970545066
+Random seed of model:27
