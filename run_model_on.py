@@ -27,6 +27,7 @@ import argparse
 import sys
 import glob
 import os
+import math
 
 import pandas as pd
 import numpy
@@ -355,6 +356,8 @@ def run(model_dir,dataset,directory,lambda1,lambda2,lambda3,true_chl,ensemble):
 
     # Index for naming columns in combined dataframe for ensemble.
     index = 0
+    # set up standard deviation if an ensemble is used.
+    model_sd = None
 
     # If the model is not an ensemble then simply get the results of the models
     # predictions
@@ -370,12 +373,17 @@ def run(model_dir,dataset,directory,lambda1,lambda2,lambda3,true_chl,ensemble):
             index+=1
         combined_df["average"] = combined_df.median(axis=1)
         test_predictions = combined_df["average"].tolist()
+        # Calculate the robust standard deviation between the models.
+        model_sd = ((combined_df.quantile(.84,axis=1) - combined_df.quantile(.16,axis=1))/2)/math.sqrt(len(os.listdir(model_dir)))
 
     output_dataset = pd.DataFrame()
     output_dataset["{} nm".format(lambda1)] = dataset["beam_1"]
     output_dataset["{} nm".format(lambda2)] = dataset["beam_2"]
     output_dataset["{} nm".format(lambda3)] = dataset["beam_3"]
     output_dataset["chl-CP"] = pd.Series(test_predictions)
+    if model_sd is not None:
+        output_dataset["robust_sd"] = model_sd
+
     output_dataset.to_csv(os.path.join(directory,"chl-CP.csv"))
 
     # If real chlorophyll-a values were provided in the dataset produce figures
