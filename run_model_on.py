@@ -27,6 +27,7 @@ import argparse
 import sys
 import glob
 import os
+import math
 
 import pandas as pd
 import numpy
@@ -262,24 +263,28 @@ def make_graphs(test_labels,test_predictions,relative_residuals, directory):
 
     plt.savefig(os.path.join(directory,"model_results.png"))
 
-def run(model_dir,dataset,directory,lambda1,lambda2,lambda3,true_chl):
+def model_run(model_dir,dataset,combined_df,index,lambda1,lambda2,lambda3):
     '''
-    Runs the main code.
+    Sets up the model and then uses it to predict chl-CP from the provided dataset.
 
-    :param model_dir: The directory containing the model and model stats.
+    :param models_dir: The directory containing the model and model stats.
     :type model_dir: String
     :param dataset: The location of the dataset that the model is to be applied to
     :type dataset: String
-    :param directory: The directory in which to store the results
-    :type directory: String
+    :combined_df: The dataframe containing all the predictions made by the models
+                  in the ensemble.
+    :type combined_df: pandas dataframe
+    :param index: The index of the model in the ensemble
+    :type index: integer
     :param lambda1: The wavelength selected for lambda1 nm
     :type lambda1: integer
     :param lambda2: The wavelength selected for lambda2 nm
     :type lambda3: integer
     :param lambda3: The wavelength selected for lambda3 nm
     :type lambda3: integer
-    :param true_chl: If the dataset contains true chlorophyll-a values
-    :type true_chl: boolean
+
+    :return: The combined dataframe of predictions from the ensemble and the test
+             predictions made by the model.
     '''
 
     # Get the model file.
@@ -299,9 +304,6 @@ def run(model_dir,dataset,directory,lambda1,lambda2,lambda3,true_chl):
     # Load the model.
     model = load_model(model)
 
-    # Prepare the dataset to be tested on the model.
-    dataset, test_labels = prepare_dataset(dataset,lambda1,lambda2,lambda3,true_chl)
-
     # Get the test stats of the training data and format it.
     test_stats = pd.read_csv(model_stats)
     test_stats.set_index('Unnamed: 0', inplace=True)
@@ -314,17 +316,74 @@ def run(model_dir,dataset,directory,lambda1,lambda2,lambda3,true_chl):
     # Add the wavelength labels to the dataset.
     normed_test_data = pd.concat([normed_test_data,Wavelengths_train],axis=1)
 
-    # Get some stats about the model results against validation data.
-    loss, mae, mse = model.evaluate(normed_test_data, test_labels, verbose=0)
-
     # Predict chlorophyll a for the dataset using the model.
     test_predictions = model.predict(normed_test_data).flatten()
+
+    # Add the test prediction to the combined_df so that we can median the results
+    # for an ensemble.
+    combined_df["pred_{}".format(index)] = test_predictions
+
+    return combined_df, test_predictions
+
+def run(model_dir,dataset,directory,lambda1,lambda2,lambda3,true_chl,ensemble):
+    '''
+    Runs the main code.
+
+    :param models_dir: The directory containing the model and model stats.
+    :type model_dir: String
+    :param dataset: The location of the dataset that the model is to be applied to
+    :type dataset: String
+    :param directory: The directory in which to store the results
+    :type directory: String
+    :param lambda1: The wavelength selected for lambda1 nm
+    :type lambda1: integer
+    :param lambda2: The wavelength selected for lambda2 nm
+    :type lambda3: integer
+    :param lambda3: The wavelength selected for lambda3 nm
+    :type lambda3: integer
+    :param true_chl: If the dataset contains true chlorophyll-a values
+    :type true_chl: boolean
+    :param ensemble: If the model contained is an ensemble or not.
+    :type ensemble: boolean
+    '''
+
+    # Prepare the dataset to be tested on the model.
+    dataset, test_labels = prepare_dataset(dataset,lambda1,lambda2,lambda3,true_chl)
+
+    # Create a combined data frame for storing the results of multiple models
+    # from an ensemble.
+    combined_df = pd.DataFrame()
+
+    # Index for naming columns in combined dataframe for ensemble.
+    index = 0
+    # set up standard deviation if an ensemble is used.
+    model_sd = None
+
+    # If the model is not an ensemble then simply get the results of the models
+    # predictions
+    if not ensemble:
+        test_predictions = model_run(model_dir,dataset,combined_df,0,lambda1,lambda2,lambda3)[1]
+    # If the model is an ensemble then predict chl-CP using each individual model
+    # and store the results in the combined dataframe. To achieve a prediction
+    # for the overall ensemble take the median of the predictions from all the
+    # models.
+    else:
+        for model in os.listdir(model_dir):
+            combined_df = model_run(os.path.join(model_dir,model),dataset,combined_df,index,lambda1,lambda2,lambda3)[0]
+            index+=1
+        combined_df["average"] = combined_df.median(axis=1)
+        test_predictions = combined_df["average"].tolist()
+        # Calculate the robust standard deviation between the models.
+        model_sd = ((combined_df.quantile(.84,axis=1) - combined_df.quantile(.16,axis=1))/2)/math.sqrt(len(os.listdir(model_dir)))
 
     output_dataset = pd.DataFrame()
     output_dataset["{} nm".format(lambda1)] = dataset["beam_1"]
     output_dataset["{} nm".format(lambda2)] = dataset["beam_2"]
     output_dataset["{} nm".format(lambda3)] = dataset["beam_3"]
     output_dataset["chl-CP"] = pd.Series(test_predictions)
+    if model_sd is not None:
+        output_dataset["Uncertainty in predicted chl"] = model_sd
+
     output_dataset.to_csv(os.path.join(directory,"chl-CP.csv"))
 
     # If real chlorophyll-a values were provided in the dataset produce figures
@@ -339,9 +398,7 @@ def run(model_dir,dataset,directory,lambda1,lambda2,lambda3,true_chl):
         # Get the spread using relative standard deviation.
         spread = (relative_residuals.quantile(.84,"higher") - relative_residuals.quantile(.16,"lower"))/2
 
-        #to show results
-        print(f"loss: {loss}\nmean abs error: {mae}\nmean sq error: {mse}\nbias: {bias}")
-        loss, mae, mse
+        print("The relative bias of the model is {}\n The relative robust standard deviation is {}".format(bias,spread))
 
         # Create the graphs for the predictions and relative_residuals.
         make_graphs(test_labels,test_predictions,relative_residuals, directory)
@@ -358,7 +415,8 @@ if __name__ == "__main__":
     parser.add_argument("--lambda2", dest="lambda2", action="store", help="Value in nm of lambda2 (for details refer to paper)", type=int, required=True)
     parser.add_argument("--lambda3", dest="lambda3", action="store", help="Value in nm of lambda3 (for details refer to paper)", type=int, required=True)
     parser.add_argument("--true-chl", dest="true_chl", action="store_true", help="Does the dataset have a true chlorophyll-a values such as chl-ACS or chl-HPLC as a collumn", default=False)
+    parser.add_argument("--ensemble", dest="ensemble", action="store_true", default=False, help="If you intend on running an ensemble of models, please use this argument and ensure that you have a directory with the models inside as described on the github.")
 
     args = parser.parse_args()
 
-    run(args.model_dir,args.data,args.directory,args.lambda1,args.lambda2,args.lambda3,args.true_chl)
+    run(args.model_dir,args.data,args.directory,args.lambda1,args.lambda2,args.lambda3,args.true_chl,args.ensemble)
