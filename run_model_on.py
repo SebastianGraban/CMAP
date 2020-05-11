@@ -382,7 +382,7 @@ def run(model_dir,dataset,directory,lambda1,lambda2,lambda3,true_chl,ensemble):
     output_dataset["{} nm".format(lambda3)] = dataset["beam_3"]
     output_dataset["chl-CP"] = pd.Series(test_predictions)
     if model_sd is not None:
-        output_dataset["robust_sd"] = model_sd
+        output_dataset["Uncertainty in predicted chl"] = model_sd
 
     output_dataset.to_csv(os.path.join(directory,"chl-CP.csv"))
 
