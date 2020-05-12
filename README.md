@@ -116,8 +116,7 @@ possible arguments for the script are as follows:
  conda activate cmap
 
  2) prepare a csv file as follows:
- \n 0.025721, 0.025894, 0.024865
- \n where the three numbers are the values of cp at lambda_1=668 nm, lambda_2=688 nm and lambda_3=710 nm. Or use the example input dataset provided in
+  0.025721, 0.025894, 0.024865 where the three numbers are the values of cp at lambda_1=668 nm, lambda_2=688 nm and lambda_3=710 nm. Or use the example input dataset provided in
 `example_input_output/example1/example_1_input.csv`
 
  3) Issue the following command
