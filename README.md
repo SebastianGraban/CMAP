@@ -66,7 +66,7 @@ when running the script.
     - model2_directory
         - model2.h5
         - train_stats.dat
-        
+
 ### Dataset ###
 
 There is some flexibility available with the formatting of the dataset to be
@@ -116,13 +116,14 @@ possible arguments for the script are as follows:
  conda activate cmap
 
  2) prepare a csv file as follows:
- 0.025721, 0.025894, 0.024865
- where the three numbers are the values of cp at lambda_1=668 nm, lambda_2=688 nm and lambda_3=710 nm
+ \n 0.025721, 0.025894, 0.024865
+ \n where the three numbers are the values of cp at lambda_1=668 nm, lambda_2=688 nm and lambda_3=710 nm. Or use the example input dataset provided in
+`example_input_output/example1/example_1_input.csv`
 
  3) Issue the following command
-  `python run_model_on.py --model Gradients_and_ratios_200-epochs_186-best_epoch_12-features_308/ --dataset dataset.csv --out_dir ./ --lambda1 668 --lambda2 688 --lambda3 710`
-  
-  ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) `4) you should obtain????`
+  `python run_model_on.py --model ensemble/ --ensemble --dataset example_input_output/example1/example_1_input.csv --out_dir ./ --lambda1 668 --lambda2 688 --lambda3 710`
+
+ 4) The output from this should produce the file `chl-CP.csv` which should be the same as the file `example_input_output/example1/example_1_output.csv`
 
 ### Example 2: Estimating chl using dataset with cp wavelengths taken at every 2 nm from 620 nm to 710 nm ###
 
@@ -131,10 +132,13 @@ conda activate cmap
 
 2) prepare a csv file as follows:
 0.027307, 0.027255, ... , 0.025031, 0.024865
-Where there are 46 columns with cp taken at interval of 2 nm within range of 620 nm - 710 nm
+Where there are 46 columns with cp taken at interval of 2 nm within range of 620 nm - 710 nm. Or use the example input dataset provided in
+`example_input_output/example2/example_2_input.csv`
 
 3) Issue the following command
- `python run_model_on.py --model Gradients_and_ratios_200-epochs_186-best_epoch_12-features_308/ --dataset dataset.csv --out_dir ./ --lambda1 668 --lambda2 688 --lambda3 710`
+`python run_model_on.py --model ensemble/ --ensemble --dataset example_input_output/example2/example_2_input.csv --out_dir ./ --lambda1 668 --lambda2 688 --lambda3 710`
+
+ 4) The output from this should produce the file `chl-CP.csv` which should be the same as the file `example_input_output/example2/example_2_output.csv`
 
 ### Example 3: Estimating chl using three cp wavelengths with true chl value ###
 
@@ -143,10 +147,13 @@ conda activate cmap
 
 2) prepare a csv file as follows:
 0.025721, 0.025894, 0.024865, 0.141172
-where the three numbers are the values of cp at lambda_1=XXX nm, lambda_2XXX nm and lambda_3XXX nm and the final value is the true chlorophyll-a value
+where the three numbers are the values of cp at lambda_1=668 nm, lambda_2=688 nm and lambda_3=710 nm and the final value is the true chlorophyll-a value. Or use the example input dataset provided in
+`example_input_output/example3/example_3_input.csv`
 
 3) Issue the following command
- `python run_model_on.py --model Gradients_and_ratios_200-epochs_186-best_epoch_12-features_308/ --dataset dataset.csv --out_dir ./ --lambda1 XXX --lambda2 XXX --lambda3 XXX --true-chl`
+ `python run_model_on.py --model ensemble/ --dataset example_input_output/example3/example_3_input.csv --out_dir example_input_output/example3/ --lambda1 668 --lambda2 688 --lambda3 710 --ensemble --true-chl`
+
+ 4) The output from this should produce the file `chl-CP.csv` which should be the same as the file `example_input_output/example3/example_3_output.csv`
 
 ### Example 4: Estimating chl using dataset with cp wavelengths taken at every 2 nm from 620 nm to 710 nm with true chl value ###
 
@@ -155,7 +162,10 @@ conda activate cmap
 
 2) prepare a csv file as follows:
 0.027307, 0.027255, ... , 0.025031, 0.024865, 0.141172
-Where there are 47 columns with cp taken at interval of 2 nm within range of 620 nm - 710 nm and the final column as the true chlorophyll-a value
+Where there are 47 columns with cp taken at interval of 2 nm within range of 620 nm - 710 nm and the final column as the true chlorophyll-a value. Or use the example input dataset provided in
+`example_input_output/example4/example_4_input.csv`
 
 3) Issue the following command
-`python run_model_on.py --model Gradients_and_ratios_200-epochs_186-best_epoch_12-features_308/ --dataset dataset.csv --out_dir ./ --lambda1 XXX --lambda2 XXX --lambda3 XXX --true-chl`
+`python run_model_on.py --model ensemble/ --dataset example_input_output/example3/example_3_input.csv --out_dir example_input_output/example3/ --lambda1 668 --lambda2 688 --lambda3 710 --ensemble --true-chl`
+
+ 4) The output from this should produce the file `chl-CP.csv` which should be the same as the file `example_input_output/example4/example_4_output.csv`

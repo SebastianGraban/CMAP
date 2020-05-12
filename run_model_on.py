@@ -371,10 +371,10 @@ def run(model_dir,dataset,directory,lambda1,lambda2,lambda3,true_chl,ensemble):
         for model in os.listdir(model_dir):
             combined_df = model_run(os.path.join(model_dir,model),dataset,combined_df,index,lambda1,lambda2,lambda3)[0]
             index+=1
-        combined_df["average"] = combined_df.median(axis=1)
-        test_predictions = combined_df["average"].tolist()
         # Calculate the robust standard deviation between the models.
         model_sd = ((combined_df.quantile(.84,axis=1) - combined_df.quantile(.16,axis=1))/2)/math.sqrt(len(os.listdir(model_dir)))
+        combined_df["average"] = combined_df.median(axis=1)
+        test_predictions = combined_df["average"].tolist()
 
     output_dataset = pd.DataFrame()
     output_dataset["{} nm".format(lambda1)] = dataset["beam_1"]
@@ -384,7 +384,7 @@ def run(model_dir,dataset,directory,lambda1,lambda2,lambda3,true_chl,ensemble):
     if model_sd is not None:
         output_dataset["Uncertainty in predicted chl"] = model_sd
 
-    output_dataset.to_csv(os.path.join(directory,"chl-CP.csv"))
+    output_dataset.to_csv(os.path.join(directory,"chl-CP.csv"),index=False)
 
     # If real chlorophyll-a values were provided in the dataset produce figures
     if test_labels is not None:
