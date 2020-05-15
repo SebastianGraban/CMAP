@@ -142,7 +142,7 @@ possible arguments for the script are as follows:
 `example_input_output/example1/example_1_input.csv`
 
  3) Issue the following command
-  `python run_model_on.py --model ensemble/ --ensemble --dataset example_input_output/example1/example_1_input.csv --out_dir ./ --lambda1 668 --lambda2 688 --lambda3 710`
+  `python3 run_model_on.py --model ensemble/ --ensemble --dataset example_input_output/example1/example_1_input.csv --out_dir ./ --lambda1 668 --lambda2 688 --lambda3 710`
 
  4) The output from this should produce the file `chl-CP.csv` which should be the same as the file `example_input_output/example1/example_1_output.csv`
 
@@ -157,7 +157,7 @@ Where there are 46 columns with cp taken at interval of 2 nm within range of 620
 `example_input_output/example2/example_2_input.csv`
 
 3) Issue the following command
-`python run_model_on.py --model ensemble/ --ensemble --dataset example_input_output/example2/example_2_input.csv --out_dir ./ --lambda1 668 --lambda2 688 --lambda3 710`
+`python3 run_model_on.py --model ensemble/ --ensemble --dataset example_input_output/example2/example_2_input.csv --out_dir ./ --lambda1 668 --lambda2 688 --lambda3 710`
 
  4) The output from this should produce the file `chl-CP.csv` which should be the same as the file `example_input_output/example2/example_2_output.csv`
 
@@ -172,7 +172,7 @@ where the three numbers are the values of cp at lambda_1=668 nm, lambda_2=688 nm
 `example_input_output/example3/example_3_input.csv`
 
 3) Issue the following command
- `python run_model_on.py --model ensemble/ --dataset example_input_output/example3/example_3_input.csv --out_dir ./ --lambda1 668 --lambda2 688 --lambda3 710 --ensemble --true-chl`
+ `python3 run_model_on.py --model ensemble/ --dataset example_input_output/example3/example_3_input.csv --out_dir ./ --lambda1 668 --lambda2 688 --lambda3 710 --ensemble --true-chl`
 
  4) The output from this should produce the file `chl-CP.csv` which should be the same as the file `example_input_output/example3/example_3_output.csv`
 
@@ -187,6 +187,6 @@ Where there are 47 columns with cp taken at interval of 2 nm within range of 620
 `example_input_output/example4/example_4_input.csv`
 
 3) Issue the following command
-`python run_model_on.py --model ensemble/ --dataset example_input_output/example3/example_3_input.csv --out_dir ./ --lambda1 668 --lambda2 688 --lambda3 710 --ensemble --true-chl`
+`python3 run_model_on.py --model ensemble/ --dataset example_input_output/example3/example_3_input.csv --out_dir ./ --lambda1 668 --lambda2 688 --lambda3 710 --ensemble --true-chl`
 
  4) The output from this should produce the file `chl-CP.csv` which should be the same as the file `example_input_output/example4/example_4_output.csv`
