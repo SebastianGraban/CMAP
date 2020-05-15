@@ -374,6 +374,7 @@ def run(model_dir,dataset,directory,lambda1,lambda2,lambda3,true_chl,ensemble):
         # Calculate the robust standard deviation between the models.
         model_sd = ((combined_df.quantile(.84,axis=1) - combined_df.quantile(.16,axis=1))/2)/math.sqrt(len(os.listdir(model_dir)))
         combined_df["average"] = combined_df.median(axis=1)
+        model_sd = model_sd/combined_df["average"]
         test_predictions = combined_df["average"].tolist()
 
     output_dataset = pd.DataFrame()

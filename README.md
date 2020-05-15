@@ -8,6 +8,11 @@ scripts to train new networks as well as re-training existing networks.
 
 ## Prerequisites ##
 
+There are two methods for obtaining the environment required to run the script.
+The two methods both work and are a matter of preference.
+
+### Conda environment ###
+
 Included within this repository is a requirements.txt files which contains all of
 the necessary packages required to run any of the scripts.
 
@@ -32,6 +37,23 @@ This should now allow you to run the model scripts.
 
 Once you have created the environment you need to clone the github into a local
 repository to be able to run it.
+
+### Singularity ###
+
+First of all please intstall the latest version of Singularity. Instructions for
+installing singularity can be found at: `https://github.com/hpcng/singularity/blob/master/INSTALL.md`
+
+Then please ensure that you follow the instructions to set up an NVIDIA NGC
+account, instructions can be found at: `https://github.com/hpcng/singularity/blob/master/INSTALL.md`
+
+Once you have an account please put your api key inside `CMAP_singularity_recipe`
+after `SINGULARITY_DOCKER_PASSWORD=`
+
+Then run `sudo singularity build CMAP.img CMAP_singularity_recipe`
+
+Once you've built the image run `singularity shell CMAP.img`
+
+At this point you should be able to run the scripts from within the shell.
 
 ## Run Model ##
 
