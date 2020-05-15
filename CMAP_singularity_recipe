@@ -45,3 +45,6 @@ pip3 install jupyter
 pip install fpdf
 
 pip3 install fpdf
+
+export SINGULARITY_DOCKER_USERNAME='$oauthtoken'
+export SINGULARITY_DOCKER_PASSWORD= PUT YOUR API KEY HERE
