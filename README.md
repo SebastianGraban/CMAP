@@ -44,7 +44,10 @@ First of all please intstall the latest version of Singularity. Instructions for
 installing singularity can be found at: `https://github.com/hpcng/singularity/blob/master/INSTALL.md`
 
 Then please ensure that you follow the instructions to set up an NVIDIA NGC
-account, instructions can be found at: `https://github.com/hpcng/singularity/blob/master/INSTALL.md`
+account, instructions can be found at: `https://docs.nvidia.com/ngc/ngc-getting-started-guide/index.html#account-signup`
+
+Once you have an account please generate an API key instructions found here:
+`https://docs.nvidia.com/ngc/ngc-getting-started-guide/index.html#generating-api-key`
 
 Once you have an account please put your api key inside `CMAP_singularity_recipe`
 after `SINGULARITY_DOCKER_PASSWORD=`
