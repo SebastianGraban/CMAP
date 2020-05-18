@@ -133,6 +133,23 @@ possible arguments for the script are as follows:
  * --true_chl If a column exists in the dataset with true chlorophyll-a values
  * --ensemble If the model is an ensemble add this argument
 
+## Common Error ##
+
+A common error message will look like this:
+
+```
+2020-05-18 14:05:06.656726: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'libcuda.so.1'; dlerror: libnvidia-fatbinaryloader.so.384.130: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /home/user/Qt5.8.0/5.8/gcc_64/lib:
+2020-05-18 14:05:06.656927: E tensorflow/stream_executor/cuda/cuda_driver.cc:351] failed call to cuInit: UNKNOWN ERROR (303)
+2020-05-18 14:05:06.656946: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (user-Latitude-5490): /proc/driver/nvidia/version does not exist
+2020-05-18 14:05:06.657103: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2020-05-18 14:05:06.668722: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2111945000 Hz
+2020-05-18 14:05:06.669079: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55b82f133ba0 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2020-05-18 14:05:06.669095: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+```
+
+This can be ignored as long as a `chl-CP.csv` file is produced. This error is due
+to tensorflow not finding a GPU, however, it then continues to execute on the CPU.
+
 ## Examples ##
 
 ### Example 1: Estimating chl using three cp wavelengths ###
