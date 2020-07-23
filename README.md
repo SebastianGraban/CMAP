@@ -1,6 +1,6 @@
 # CMAP #
 
-These are the scripts and files required to estimate chlorophyll-a concentrations using particulate beam-attenuation coefficients as described in the paper Graban et al., 2020 (submitted to Optics Express).
+These are the scripts and files required to estimate chlorophyll-a concentrations using particulate beam-attenuation coefficients as described in the paper S. Graban, G. Dall'Olmo, S. Goult, and R. Sauzède (2020) "Accurate deep-learning estimation of chlorophyll-a concentration from the spectral particulate beam-attenuation coefficient" Optics Express, https://doi.org/10.1364/OE.397863
 
 At the moment this repository only contains a script which enables the user to run a
 model on a specified dataset. The repository will later be expanded to include
